@@ -1,4 +1,3 @@
-
 <!-- This is the project specific website template -->
 <!-- It can be changed as liked or replaced by other content -->
 
@@ -43,9 +42,11 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<p> No content added. </p>
+<img src="image_scatter.png" width="772" height="606" />
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p>CulturalAnalytics is an R package containing functions for statistical analysis and plotting of image properties. It is intended for use in the digital humanities, in art institutions, by art historians and critics, and by anyone who wishes to examine digital or digitized images.</p>
+
+<p> The <strong>project summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
 </body>
 </html>
