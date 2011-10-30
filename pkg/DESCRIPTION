@@ -1,0 +1,11 @@
+Package: CulturalAnalytics
+Type: Package
+Title: Functions for statistical analysis and plotting of image properties
+Version: 1.0
+Date: 2011-10-31
+Author: Rob Myers
+Maintainer: Robmyers <rob@robmyers.org>
+Description: Functions for calculating and plotting statistical properties of images.
+License: GPL (>=3)
+LazyLoad: yes
+Depends: EBImage, colorspace, plyr
