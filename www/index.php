@@ -28,25 +28,20 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <a href="http://r-forge.r-project.org/"><img src="http://<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
 </table>
 
-
-<!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
 
-<?php if ($handle=fopen('http://'.$domain.'/export/projtitl.php?group_name='.$group_name,'r')){
-$contents = '';
-while (!feof($handle)) {
-	$contents .= fread($handle, 8192);
-}
-fclose($handle);
-echo $contents; } ?>
-
-<!-- end of project description -->
+<h1>Cultural Analytics for the Digital Humanities in R.</h1>
 
 <img src="image_scatter.png" width="772" height="606" />
 
 <p>CulturalAnalytics is an R package containing functions for statistical analysis and plotting of image properties. It is intended for use in the digital humanities, in art institutions, by art historians and critics, and by anyone who wishes to examine digital or digitized images.</p>
 
-<p> The <strong>project summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p>CulturalAnalytics provides functions for obtaining statistics such as
+the standard deviation and mean in the RGB and HSV colour spaces, for
+image entropy and histograms in greyscale (intensity) and colour, and
+for plotting colour clouds and image scatter charts.</p>
+
+<p>The <strong>project summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
 </body>
 </html>
