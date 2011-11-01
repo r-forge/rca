@@ -8,25 +8,22 @@
   colorspace library objects and returns them as named values in a list.
 }
 \usage{
-rangeHsv(hsvcoords)
+rangeHsv(hsvs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{hsvcoords}{
-    The coordinates of colorspace library HSV objects, as returned by
-    \code{coords()} .
+  \item{hsvs}{
+    colorspace library HSV values.
   }
 }
 \value{
   A list with the range for the H, S and V values under those names.
 }
 \examples{
-library(colorspace)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readImage(imgs[1])
 rgbs<-imageToRgb(img)
 hsvs<-rgbToHsv(rgbs)
-hsvcoords<-coords(hsvs)
-hsvrange<-rangeHsv(hsvcoords)
+hsvrange<-rangeHsv(hsvs)
 }

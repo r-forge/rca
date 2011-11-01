@@ -8,22 +8,20 @@
   of colorspace library RGB values.
 }
 \usage{
-summaryRgb(rgbcoords)
+summaryRgb(rgbs)
 }
 \arguments{
-  \item{rgbcoords}{
-    The coords() of colorspace library RGB values
+  \item{rgbs}{
+    colorspace library RGB values
   }
 }
 \value{
   A list with summaries for the R, G and B values.
 }
 \examples{
-library(colorspace)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readImage(imgs[1])
 rgbs<-imageToRgb(img)
-rgbcoords<-coords(rgbs)
-summaryrgb<-summaryRgb(rgbcoords)
+summaryrgb<-summaryRgb(rgbs)
 }

@@ -8,24 +8,21 @@
   colorspace library objects and returns them as named values in a list.
 }
 \usage{
-rangeRgb(rgbcoords)
+rangeRgb(rgbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{rgbcoords}{
-    The coordinates of colorspace library RGB objects, as returned by
-    \code{coords()} .
+  \item{rgbs}{
+    colorspace library RGB values.
   }
 }
 \value{
   A list with the range for the R, G and B values under those names.
 }
 \examples{
-library(colorspace)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readImage(imgs[1])
 rgbs<-imageToRgb(img)
-rgbcoords<-coords(rgbs)
-rgbrange<-rangeRgb(rgbcoords)
+rgbrange<-rangeRgb(rgbs)
 }

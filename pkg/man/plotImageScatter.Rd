@@ -77,8 +77,7 @@ imgs<-lapply(dirimgs, function(imgpath){readImage(imgpath)})
 summaries<-lapply(imgs,
   function(img){rgbs<-imageToRgb(img)
     hsvs<-rgbToHsv(rgbs)
-    hsvcoords<-coords(hsvs)
-    summaryHsv(hsvcoords)})
+    summaryHsv(hsvs)})
 vMedian<-as.numeric(lapply(summaries, function(summary){summary$V[["Median"]]}))
 sMean<-as.numeric(lapply(summaries,
 function(summary){summary$S[["Mean"]]}))

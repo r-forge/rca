@@ -226,7 +226,8 @@ imageEntropy<-function(histogram){
 ## The colour returned is not a colour in the image,
 ## it just contains the median values
   
-medianRgb<-function(rgbcoords){
+medianRgb<-function(rgbs){
+  rgbcoords<-coords(rgbs)
   RGB(median(rgbcoords[,"R"]), median(rgbcoords[,"G"]),
       median(rgbcoords[,"B"]))
 }
@@ -236,7 +237,8 @@ medianRgb<-function(rgbcoords){
 ## the second containing high values
 ## These are not colours that appear in the image, they just contain the values
   
-rangeRgb<-function(rgbcoords){
+rangeRgb<-function(rgbs){
+  rgbcoords<-coords(rgbs)
   hrange<-range(rgbcoords[,"R"])
   srange<-range(rgbcoords[,"G"])
   vrange<-range(rgbcoords[,"B"])
@@ -248,7 +250,8 @@ rangeRgb<-function(rgbcoords){
 ## The colour returned is not a colour in the image,
 ## it just contains the sd for each value
 
-sdRgb<-function(rgbcoords){
+sdRgb<-function(rgbs){
+  rgbcoords<-coords(rgbs)
   rsd<-sd(rgbcoords[,"R"])
   gsd<-sd(rgbcoords[,"G"])
   bsd<-sd(rgbcoords[,"B"])
@@ -257,7 +260,8 @@ sdRgb<-function(rgbcoords){
 
 ## A good way of getting the min, max, median and other useful values
 
-summaryRgb<-function(rgbcoords){
+summaryRgb<-function(rgbs){
+  rgbcoords<-coords(rgbs)
   list(R=summary(rgbcoords[,"R"]),
        G=summary(rgbcoords[,"G"]),
        B=summary(rgbcoords[,"B"]))
@@ -272,7 +276,8 @@ summaryRgb<-function(rgbcoords){
 ## The colour returned is not a colour in the image,
 ## it just contains the median values
   
-medianHsv<-function(hsvcoords){
+medianHsv<-function(hsvs){
+  hsvcoords<-coords(hsvs)
   HSV(median(hsvcoords[,"H"]), median(hsvcoords[,"S"]), median(hsvcoords[,"V"]))
 }
   
@@ -281,7 +286,8 @@ medianHsv<-function(hsvcoords){
 ## the second containing high values
 ## These are not colours that appear in the image, they just contain the values
   
-rangeHsv<-function(hsvcoords){
+rangeHsv<-function(hsvs){
+  hsvcoords<-coords(hsvs)
   hrange<-range(hsvcoords[,"H"])
   srange<-range(hsvcoords[,"S"])
   vrange<-range(hsvcoords[,"V"])
@@ -293,7 +299,8 @@ rangeHsv<-function(hsvcoords){
 ## The colour returned is not a colour in the image,
 ## it just contains the sd for each value
 
-sdHsv<-function(hsvcoords){
+sdHsv<-function(hsvs){
+  hsvcoords<-coords(hsvs)
   hsd<-sd(hsvcoords[,"H"])
   ssd<-sd(hsvcoords[,"S"])
   vsd<-sd(hsvcoords[,"V"])
@@ -302,7 +309,8 @@ sdHsv<-function(hsvcoords){
 
 ## A good way of getting the min, max, median and other useful values
 
-summaryHsv<-function(hsvcoords){
+summaryHsv<-function(hsvs){
+  hsvcoords<-coords(hsvs)
   list(H=summary(hsvcoords[,"H"]),
        S=summary(hsvcoords[,"S"]),
        V=summary(hsvcoords[,"V"]))
