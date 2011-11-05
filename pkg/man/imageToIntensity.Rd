@@ -7,19 +7,24 @@
   Convert an image to an intensity map.
 }
 \usage{
-imageToIntensity(image)
+imageToIntensity(image, method="perceptual")
 }
 \arguments{
   \item{image}{
     An EBImage Image object.
   }
+  \item{method}{
+    A string naming the method to use for colour conversion.
+    "mean" - Use the mean of the red, green and blue channels.
+    "perceptual"- Weight the red, green and blue channels perceptually.
+  }
 }
 \details{
   Many algorithms require an intensity map of the image rather than the
-  full-colour version of the image. An intensity map is just a greyscale version of the image.
+  full-colour version of the image. An intensity map is a greyscale version of the image.
 }
 \value{
-  A greyscale EBImage (the ``grey'' channel of the EBImage).
+  A greyscale EBImage.
 }
 \examples{
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")

@@ -1,5 +1,6 @@
 export(
        dataFramePalette,
+       divideImage,
        imageEntropy,
        imageToDataFrame,
        imageToIntensity,

@@ -92,8 +92,16 @@ paletteToR<-function(palette){
 
 ## Convert the colour image to greyscale, or intensity
 
-imageToIntensity<-function(image){
-  channel(image, "grey")
+imageToIntensity<-function(image, method="perceptual"){
+  if(method == "mean"){
+    channel(image, "grey")
+  } else if(method == "perceptual") {
+    id<-imageData(image)
+    perceptual<-(id[,,1] * .3) + (id[,,2] * .59) + (id[,,3] * .11)
+    Image(perceptual, dim(image), colorMode(image))
+  } else {
+    simpleError(paste("Unknown imageToIntensity method:", method))
+  }
 }
 
 ## Plot a list of palettes as a matrix of colours, possibly with labels
@@ -416,9 +424,54 @@ plotImageScatter<-function(images, xValues, yValues, labelValues,
 }
 
 
+################################################################################
+## Image tiling
+################################################################################
+
+## Extract a section of a larger image as an image of the same colorMode
+
+subImage<-function(image, x, y, w, h){
+  xx<-x + w - 1
+  yy<-y + h - 1
+  pixels<-imageData(image)[x:xx, y:yy, ]
+  Image(pixels, colormode=colorMode(image))
+}
+
+## Divide image into smaller tiles
+## If the image dosn't divide exactly into that number of rows or columns,
+## not all images may be the same size
+
+divideImage<-function(image, columns, rows){
+  tiles<-vector("list", columns * rows)
+  width<-dim(image)[1] / columns
+  height<-dim(image)[2] / rows
+  x<-1
+  for(column in 1:columns){
+    y<-1
+    for(row in 1:rows){
+      sub<-subImage(image, x, y, width, height)
+      tiles[[((column - 1) * rows ) + row]]<-sub
+      y<-y + height
+    }
+    x<-x + width
+  }
+  matrix(tiles, nrow=rows, ncol=columns)
+}
+
+
 ###############################################################################
 ## Feature analysis
 ################################################################################
+
+## Calculate mask for an intensity image and detect features in it using EBImage
+## Paramaters are as to EBImage thresh()
+
+imageFeatures<-function(image, w=5, h=5, offset=0.01){
+  mask<-thresh(image, w, h, offset)
+  features<-getFeatures(mask, image)[[1]]
+  features[1,]
+}
+
 
 ## http://staff.science.uva.nl/~asalah/buter11deviantart.pdf
 
@@ -439,9 +492,10 @@ plotImageScatter<-function(images, xValues, yValues, labelValues,
 
 ## Median intensity is already covered
 
-#intensityVariance<-function(greyscaleImage){
-#  (1 / numPixels(greyscaleImage)) * sum(greyscaleImage.pixels)
-#}
+intensityVariance<-function(intensityImage){
+  id<-imageData(intensityImage)
+  (1 / length(id)) * sum(id)
+}
 
 ## intensityHistogram is already covered
 
@@ -491,8 +545,8 @@ plotImageScatter<-function(images, xValues, yValues, labelValues,
 ## More from series_palette.r
 ################################################################################
 
+##### People can do these easily enough, just have them as recipes in Vignettes?
 ## SD of properties of list of images
 ## Mean of properties of list of images
 ## Summary of properties of list of images
-
 ## Clustering images based on properties
