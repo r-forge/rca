@@ -333,7 +333,7 @@ summaryHsv<-function(hsvs){
 plotLabels<-function(labelValues, xValues, yValues, labelCol=par("col"),
                      labelSize=1){
   ## Position the labels above the images
-  text(xValues, yValues, labelValues, col=labelCol, cex=labelSize, pos=3)
+  text(xValues, yValues, labelValues, col=labelCol, cex=labelSize)
 }
 
 ## Image utilities
