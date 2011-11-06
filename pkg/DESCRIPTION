@@ -1,8 +1,8 @@
 Package: CulturalAnalytics
 Type: Package
 Title: Functions for statistical analysis and plotting of image properties
-Version: 1.0.1
-Date: 2011-11-01
+Version: 1.0.2
+Date: 2011-11-06
 Author: Rob Myers
 Maintainer: Robmyers <rob@robmyers.org>
 Description: Functions for calculating and plotting statistical properties of images.

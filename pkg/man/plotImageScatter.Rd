@@ -12,8 +12,8 @@
 }
 \usage{
 plotImageScatter(images, xValues, yValues, labelValues,
-lineCol = "black", lineWidth = 1, pointStyle = 19, pointCol = "black",
-thumbnailWidth = 0.3, labelCol = "black", labelSize = 1,
+lineCol = par("col"), lineWidth = 1, pointStyle = 19, pointCol = par("col"),
+thumbnailWidth = 0.3, labelCol = par("col"), labelSize = 1,
 shouldDrawLines = TRUE, shouldDrawPoints = TRUE, shouldDrawImages = TRUE,
 shouldDrawLabels = TRUE)
 }

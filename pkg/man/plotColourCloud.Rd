@@ -32,7 +32,6 @@ plotColourCloud(hist, title = "", radius = 0.005, dotSize = 1)
 }
 
 \examples{
-library(colorspace)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readImage(imgs[1])

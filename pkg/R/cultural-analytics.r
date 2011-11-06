@@ -330,7 +330,7 @@ summaryHsv<-function(hsvs){
 
 ## Labels
 
-plotLabels<-function(labelValues, xValues, yValues, labelCol="black",
+plotLabels<-function(labelValues, xValues, yValues, labelCol=par("col"),
                      labelSize=1){
   ## Position the labels above the images
   text(xValues, yValues, labelValues, col=labelCol, cex=labelSize, pos=3)
@@ -389,23 +389,23 @@ plotImages<-function(images, xValues, yValues, thumbnailWidth=0.3){
 
 ## Lines
 
-plotLines<-function(xValues, yValues, lineCol="black", lineWidth=1){
+plotLines<-function(xValues, yValues, lineCol=par("col"), lineWidth=1){
   lines(xValues, yValues, col=lineCol, lwd=lineWidth)
 }
 
 ## Points
 
-plotPoints<-function(xValues, yValues, pointCol="black", pointStyle=19){
+plotPoints<-function(xValues, yValues, pointCol=par("col"), pointStyle=19){
     points(xValues, yValues, pch=pointStyle, col=pointCol)
   }
 
 ## Plot everything in an order that is good for visibility
 
 plotImageScatter<-function(images, xValues, yValues, labelValues,
-                           lineCol="black", lineWidth=1.0,
-                           pointStyle=19, pointCol="black",
+                           lineCol=par("col"), lineWidth=1.0,
+                           pointStyle=19, pointCol=par("col"),
                            thumbnailWidth=0.3,
-                           labelCol="black", labelSize=1,
+                           labelCol=par("col"), labelSize=1,
                            shouldDrawLines=TRUE, shouldDrawPoints=TRUE,
                            shouldDrawImages=TRUE, shouldDrawLabels=TRUE){
   if(shouldDrawLines){
