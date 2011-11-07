@@ -2,6 +2,7 @@ export(
        dataFramePalette,
        divideImage,
        imageEntropy,
+       imageSummaries,
        imageToDataFrame,
        imageToIntensity,
        imageToRgb,

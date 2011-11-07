@@ -324,6 +324,17 @@ summaryHsv<-function(hsvs){
        V=summary(hsvcoords[,"V"]))
 }
 
+## Slowly but surely build a data.frame of values
+
+imageSummaries<-function(images){
+    t(sapply(images,
+           function(img){
+             hsvs<-rgbToHsv(imageToRgb(img))
+             sds<-sdHsv(hsvs)
+             c(unlist(summaryHsv(hsvs)), H.sd=sds$H, S.sd=sds$S, V.sd=sds$V)
+           }))
+}
+
 ################################################################################
 ## Scatter plot
 ################################################################################
