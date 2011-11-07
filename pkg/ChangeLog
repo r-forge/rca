@@ -1,0 +1,15 @@
+--- 7-November-2011, version 1.0.3
+add imageSummaries function
+add ChangeLog
+
+--- 6-November-2011, version 1.0.2
+add image series for tests
+add image division
+add method choice parameter to imageToIntensity
+use par("col") for plotImageScatter colour defaults
+
+--- 1-November-2011, version 1.0.1
+change calling conventions for functions that take colorspace objects
+
+--- 31-October-2011, version 1.0.0
+initial revision
