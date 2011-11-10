@@ -1,7 +1,9 @@
 export(
        dataFramePalette,
        divideImage,
+       images,
        imageEntropy,
+       imagePlot,
        imageSummaries,
        imageToDataFrame,
        imageToIntensity,
@@ -10,7 +12,6 @@ export(
        medianRgb,
        paletteToR,
        plotColourCloud,
-       plotImageScatter,
        plotIntensityHistogram,
        plotPalettes,
        plotRgbHistogram,

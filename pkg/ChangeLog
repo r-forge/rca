@@ -1,3 +1,8 @@
+--- 9-November-2011, version 1.0.4
+rename imageScatterPlot to imagePlot
+reimplement imagePlot
+add images(), the image scatter plot function used by imagePlot
+
 --- 7-November-2011, version 1.0.3
 add imageSummaries function
 add ChangeLog

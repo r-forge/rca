@@ -339,98 +339,80 @@ imageSummaries<-function(images){
 ## Scatter plot
 ################################################################################
 
-## Labels
-
-plotLabels<-function(labelValues, xValues, yValues, labelCol=par("col"),
-                     labelSize=1){
-  ## Position the labels above the images
-  text(xValues, yValues, labelValues, col=labelCol, cex=labelSize)
-}
-
-## Image utilities
-
-## Left X value for image
-## image parameter accepted to give these calls a regular signature
-
-imageXLeft<-function(image, valueX){
-  valueX
-}
-
-## Right X value for image
-## image parameter accepted to give these calls a regular signature
-
-imageXRight<-function(image, valueX, thumbnailWidth){
-  valueX + thumbnailWidth
-}
-
-## Get the height of the image scaled to the new width
-
-imageHeightScaled<-function(image, scaledWidth){
-  scale<-dim(image)[1] / scaledWidth
-  dim(image)[2] / scale
-}
-
 ## Bottom Y value for image
+## Calculate for user space possibly having an aspect ratio other than 1:1
 
-imageYBottom<-function(image, valueY, thumbnailWidth){
-  valueY - imageHeightScaled(image, thumbnailWidth)
+imageYBottom<-function(image, valueY, thumbnailWidth, aspectRatio){
+  scale<-dim(image)[1] / dim(image)[2]
+  imageHeightScaled<-(thumbnailWidth / scale) * aspectRatio
+  valueY - imageHeightScaled
 }
 
-## Top Y value for image
-
-imageYTop<-function(image, valueY){
-  valueY
+pixelsToUser<-function(size){
+  ## How many pixels per inch across the device?
+  ppi<-dev.size("px")[1] / dev.size("in")[1]
+  ## How many pixels across the plot?
+  pinPixels<-par("pin")[1] * ppi
+  ## What proportion of the user co-ordinates is size?
+  (size / pinPixels) * (par("usr")[4] - par("usr")[3])
 }
-
-## End image utilities
 
 ## Image scatter plot
+## rasterImage plots in user space co-ordinates, plot() or par(usr) affects this
+## So we calculate the aspect ratio
 
-plotImages<-function(images, xValues, yValues, thumbnailWidth=0.3){
+plotImages<-function(xValues, yValues, images, thumbnailWidth=72){
+  aspectRatio<-(par("usr")[4] - par("usr")[3]) / (par("usr")[2] - par("usr")[1])
+  userWidth<-pixelsToUser(72)
   for(i in 1:length(images)){
     image<-images[[i]]
     x<-xValues[i]
     y<-yValues[i]
     ## Does the image really have to be rotated???
-    rasterImage(rotate(image), imageXLeft(image, x), imageYTop(image, y),
-                imageXRight(image, x, thumbnailWidth),
-                imageYBottom(image, y, thumbnailWidth))
+    rasterImage(rotate(image), x, y, x + userWidth,
+                imageYBottom(image, y, userWidth, aspectRatio))
   }
 }
 
-## Lines
+## Public interface to the plotImages routine
 
-plotLines<-function(xValues, yValues, lineCol=par("col"), lineWidth=1){
-  lines(xValues, yValues, col=lineCol, lwd=lineWidth)
+images<-function(x, y=NULL, images=NULL, thumbnailWidth=72){
+  xy<-xy.coords(x, y)
+  plotImages(xy$x, xy$y, images, thumbnailWidth)
 }
-
-## Points
-
-plotPoints<-function(xValues, yValues, pointCol=par("col"), pointStyle=19){
-    points(xValues, yValues, pch=pointStyle, col=pointCol)
-  }
 
 ## Plot everything in an order that is good for visibility
 
-plotImageScatter<-function(images, xValues, yValues, labelValues,
-                           lineCol=par("col"), lineWidth=1.0,
-                           pointStyle=19, pointCol=par("col"),
-                           thumbnailWidth=0.3,
-                           labelCol=par("col"), labelSize=1,
-                           shouldDrawLines=TRUE, shouldDrawPoints=TRUE,
-                           shouldDrawImages=TRUE, shouldDrawLabels=TRUE){
-  if(shouldDrawLines){
-    plotLines(xValues, yValues, lineCol=lineCol, lineWidth=lineWidth)
+imagePlot<-function(x, y=NULL, images=NULL, labels=NULL,
+                    main="", sub="",
+                    xlim=NULL, ylim=NULL,
+                    axes=TRUE, ann=par("ann"),
+                    text.adj=par("adj"),
+                    thumbnailWidth=72,
+                    ...){
+  xy<-xy.coords(x, y)
+  if(is.null(xlim)){
+    xlim<-range(xy$x[is.finite(xy$x)])
   }
-  if(shouldDrawPoints){
-    plotPoints(xValues, yValues, pointStyle=pointStyle, pointCol=pointCol)
+  if(is.null(ylim)){
+    ylim<-range(xy$y[is.finite(xy$y)])
   }
-  if(shouldDrawImages){
-    plotImages(images, xValues, yValues, thumbnailWidth)
+  opar<-par(no.readonly=TRUE)
+  on.exit(par(opar))
+  plot.new()
+  plot.window(xlim, ylim, ...)
+  par(xpd=NA)
+  lines(xy$x, xy$y, ...)
+  points(xy$x, xy$y, ...)
+  plotImages(xy$x, xy$y, images, thumbnailWidth)
+  text(xy$x, xy$y, labels, adj=text.adj, ...)
+  if(axes){
+    axis(1, ...)
+    axis(2, ...)
   }
-  if(shouldDrawLabels){
-    plotLabels(labelValues, xValues, yValues, labelCol=labelCol,
-               labelSize=labelSize)
+  if (ann){
+    ## Take x/ylab from parameters to let user set explicitly
+    title(main=main, sub=sub, ...) # xlab=xy$xlab, ylab=xy$ylab,
   }
 }
 
