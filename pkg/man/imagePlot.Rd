@@ -28,7 +28,7 @@ imagePlot(x, y=NULL, images=NULL, labels=NULL,
     The y co-ordinates at which to plot the elements (as per xy.coords() ).
   }
   \item{images}{
-    A list of EBImage images.
+    A list of raster images.
   }
   \item{labels}{
     The labels for the x,y co-ordinates.
@@ -73,6 +73,9 @@ imagePlot(x, y=NULL, images=NULL, labels=NULL,
   Based on the documented behaviour of ImagePlot: http://lab.softwarestudies.com/p/imageplot.html
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
+
 # Utility code to transform file names into labels
 
 stripExtension<-function(filename){
@@ -89,14 +92,11 @@ cleanFilename<-function(filepath){
   underscoresToSpaces(name)
 }
 
-# ^ And then ".*- ([^(]+).*" regex to use standard format of top level samples
-# And add text positioning to the plot parameters, defaulting to above right
-
 # Get the images
 
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 dirimgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-imgs<-lapply(dirimgs, function(imgpath){readImage(imgpath)})
+imgs<-lapply(dirimgs, function(imgpath){readJPEG(imgpath)})
 
 # Get the image property summaries
 
@@ -109,7 +109,7 @@ sMean<-as.numeric(lapply(summaries,
 function(summary){summary$S[["Mean"]]}))
 
 # Start drawing to file
-png(filename="catest.png", width=4, height=2, units="in", res=72)
+png(filename="catest.png", width=8, height=6, units="in", res=72)
 
 # Set the background colour
 par(bg="gray40")
@@ -117,6 +117,7 @@ par(bg="gray40")
 # Draw the image scatter (and lines, points and labels)
 # Note setting of graphics parameters using ...
 imagePlot(vMedian, sMean, imgs, cleanFilename(dirimgs),
+                 thumbnailWidth=72,
                  col="white", col.main="white", col.axis="white",
                  col.lab="white", cex=0.6, text.adj=c(0, -0.5),
                  main="imagePlot() Example",

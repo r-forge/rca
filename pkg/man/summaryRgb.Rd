@@ -19,6 +19,8 @@ summaryRgb(rgbs)
   A list with summaries for the R, G and B values.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readImage(imgs[1])

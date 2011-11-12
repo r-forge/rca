@@ -34,7 +34,7 @@ collections of properties.
   To use the library load it using \code{library("CulturalAnalytics")}.
   
   To load images for use with algorithms from the library you will need to
-  use the EBImage library. 
+  use the jpeg and png libraries. 
 }
 \author{
   Rob Myers

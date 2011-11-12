@@ -11,7 +11,7 @@ imageToIntensity(image, method="perceptual")
 }
 \arguments{
   \item{image}{
-    An EBImage Image object.
+    An RGB raster image.
   }
   \item{method}{
     A string naming the method to use for colour conversion.
@@ -24,9 +24,11 @@ imageToIntensity(image, method="perceptual")
   full-colour version of the image. An intensity map is a greyscale version of the image.
 }
 \value{
-  A greyscale EBImage.
+  A greyscale image matrix.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readImage(imgs[1])

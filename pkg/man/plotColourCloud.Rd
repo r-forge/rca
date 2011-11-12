@@ -32,9 +32,11 @@ plotColourCloud(hist, title = "", radius = 0.005, dotSize = 1)
 }
 
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-img<-readImage(imgs[1])
+img<-readJPEG(imgs[1])
 rgbdf<-imageToDataFrame(img)
 rgbhist<-rgbImageHist(rgbdf)
 plotColourCloud(rgbhist)

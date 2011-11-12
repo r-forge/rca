@@ -11,7 +11,7 @@ divideImage(image, columns, rows)
 }
 \arguments{
   \item{image}{
-    An EBImage Image object.
+    A raster image
   }
   \item{columns}{
     The number of columns to divide the image into.
@@ -28,12 +28,14 @@ divideImage(image, columns, rows)
   from others.
 }
 \value{
-  A matrix of EBImages. Elements of the matrix must be accessed using [[.
+  A matrix of raster images. Elements of the matrix must be accessed using [[.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-img<-readImage(imgs[1])
+img<-readJPEG(imgs[1])
 tiles<-divideImage(img, 3, 3)
 t13<-tiles[[1,3]]
 }

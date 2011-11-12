@@ -19,9 +19,6 @@
 ## Libraries used
 ################################################################################
 
-## source("http://bioconductor.org/biocLite.R")
-## biocLite("EBImage")
-library("EBImage")
 
 ##install.packages("colorspace")
 library("colorspace")
@@ -37,17 +34,17 @@ library(plyr)
 ## The representation used by palettes and histograms
 
 imageToDataFrame<-function(image){
-  data.frame(red=as.numeric(imageData(channel(image, "red"))),
-             green=as.numeric(imageData(channel(image, "green"))),
-             blue=as.numeric(imageData(channel(image, "blue"))))
+  data.frame(red=as.numeric(image[,,1]),
+             green=as.numeric(image[,,2]),
+             blue=as.numeric(image[,,3]))
 }
 
 ## Convert the image's pixels to colorspace RGB objects
 
 imageToRgb<-function(image){
-  RGB(as.numeric(imageData(channel(image, "red"))),
-      as.numeric(imageData(channel(image, "green"))),
-      as.numeric(imageData(channel(image, "blue"))))
+  RGB(as.numeric(image[,,1]),
+      as.numeric(image[,,2]),
+      as.numeric(image[,,3]))
 }
 
 ## Convert the RGB data.frame to an RGB objects collection
@@ -94,11 +91,9 @@ paletteToR<-function(palette){
 
 imageToIntensity<-function(image, method="perceptual"){
   if(method == "mean"){
-    channel(image, "grey")
+    (image[,,1] + image[,,2] + image[,,3]) / 3
   } else if(method == "perceptual") {
-    id<-imageData(image)
-    perceptual<-(id[,,1] * .3) + (id[,,2] * .59) + (id[,,3] * .11)
-    Image(perceptual, dim(image), colorMode(image))
+    (image[,,1] * .3) + (image[,,2] * .59) + (image[,,3] * .11)
   } else {
     simpleError(paste("Unknown imageToIntensity method:", method))
   }
@@ -128,7 +123,7 @@ plotPalettes<-function(palettes, names=FALSE){
 
 plotIntensityHistogram<-function(image, bins=255, main="", xlab="Value",
                                  col=grey(0)){
-  hist(imageData(image), main=main, breaks=0:bins/bins, xlim=c(0, 1),
+  hist(image, main=main, breaks=0:bins/bins, xlim=c(0, 1),
        xlab=xlab, col=col, border=NULL)
 }
 
@@ -339,22 +334,32 @@ imageSummaries<-function(images){
 ## Scatter plot
 ################################################################################
 
-## Bottom Y value for image
-## Calculate for user space possibly having an aspect ratio other than 1:1
+## Convert an x position or a width in pixels into user co-ordinates
 
-imageYBottom<-function(image, valueY, thumbnailWidth, aspectRatio){
-  scale<-dim(image)[1] / dim(image)[2]
-  imageHeightScaled<-(thumbnailWidth / scale) * aspectRatio
-  valueY - imageHeightScaled
-}
-
-pixelsToUser<-function(size){
+pixelsToUserX<-function(size){
   ## How many pixels per inch across the device?
   ppi<-dev.size("px")[1] / dev.size("in")[1]
   ## How many pixels across the plot?
   pinPixels<-par("pin")[1] * ppi
-  ## What proportion of the user co-ordinates is size?
+  ## What proportion of the user co-ordinates width is the size?
+  (size / pinPixels) * (par("usr")[2] - par("usr")[1])
+}
+
+## Convert a y position or a height in pixels into user co-ordinates
+
+pixelsToUserY<-function(size){
+  ## How many pixels per inch down the device?
+  ppi<-dev.size("px")[2] / dev.size("in")[2]
+  ## How many pixels down the plot?
+  pinPixels<-par("pin")[2] * ppi
+  ## What proportion of the user co-ordinates height is the size?
   (size / pinPixels) * (par("usr")[4] - par("usr")[3])
+}
+
+## Calculate the aspect ratio of an image
+
+imageAspectRatio<-function(img){
+  dim(img)[1] / dim(img)[2]
 }
 
 ## Image scatter plot
@@ -362,15 +367,13 @@ pixelsToUser<-function(size){
 ## So we calculate the aspect ratio
 
 plotImages<-function(xValues, yValues, images, thumbnailWidth=72){
-  aspectRatio<-(par("usr")[4] - par("usr")[3]) / (par("usr")[2] - par("usr")[1])
-  userWidth<-pixelsToUser(72)
   for(i in 1:length(images)){
     image<-images[[i]]
     x<-xValues[i]
     y<-yValues[i]
-    ## Does the image really have to be rotated???
-    rasterImage(rotate(image), x, y, x + userWidth,
-                imageYBottom(image, y, userWidth, aspectRatio))
+    rasterImage(image,
+                x, y - pixelsToUserY(thumbnailWidth) * imageAspectRatio(image),
+                x + pixelsToUserX(thumbnailWidth), y)
   }
 }
 
@@ -382,6 +385,7 @@ images<-function(x, y=NULL, images=NULL, thumbnailWidth=72){
 }
 
 ## Plot everything in an order that is good for visibility
+## This breaks the naming scheme. It's a reference to another piece of software.
 
 imagePlot<-function(x, y=NULL, images=NULL, labels=NULL,
                     main="", sub="",
@@ -426,8 +430,7 @@ imagePlot<-function(x, y=NULL, images=NULL, labels=NULL,
 subImage<-function(image, x, y, w, h){
   xx<-x + w - 1
   yy<-y + h - 1
-  pixels<-imageData(image)[x:xx, y:yy, ]
-  Image(pixels, colormode=colorMode(image))
+  image[x:xx, y:yy, ]
 }
 
 ## Divide image into smaller tiles
@@ -455,16 +458,6 @@ divideImage<-function(image, columns, rows){
 ###############################################################################
 ## Feature analysis
 ################################################################################
-
-## Calculate mask for an intensity image and detect features in it using EBImage
-## Paramaters are as to EBImage thresh()
-
-imageFeatures<-function(image, w=5, h=5, offset=0.01){
-  mask<-thresh(image, w, h, offset)
-  features<-getFeatures(mask, image)[[1]]
-  features[1,]
-}
-
 
 ## http://staff.science.uva.nl/~asalah/buter11deviantart.pdf
 

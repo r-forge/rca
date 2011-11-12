@@ -1,7 +1,7 @@
 \name{medianRgb}
 \alias{medianRgb}
 \title{
-Calculate the median HSV colour of an image.
+Calculate the median RGB colour of an image.
 }
 \description{
   Calculate the median values for the RGB values of the image.
@@ -20,9 +20,11 @@ medianRgb(rgbs)
   image. This may not match a colour actually in the image.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-img<-readImage(imgs[1])
+img<-readJPEG(imgs[1])
 rgbs<-imageToRgb(img)
 rgbMed<-medianRgb(rgbs)
 }

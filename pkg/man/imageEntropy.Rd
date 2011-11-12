@@ -22,9 +22,11 @@ imageEntropy(histogram)
   A value representing the entropy of the image.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-img<-readImage(imgs[1])
+img<-readJPEG(imgs[1])
 histogram<-hist(imageData(channel(img, "grey")), breaks=0:255/255,
                 plot=FALSE)
 entropy<-imageEntropy(histogram)

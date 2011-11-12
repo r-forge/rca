@@ -11,7 +11,7 @@ imageSummaries(images)
 }
 \arguments{
   \item{images}{
-    A list of EBImage images
+    A list of raster images
   }
 }
 \value{
@@ -20,6 +20,9 @@ imageSummaries(images)
   are the summaryHsv and sdHsv values.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
+
 stripExtension<-function(filename){
   sub("\\\\.[^.]+$", "", filename)
 }

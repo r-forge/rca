@@ -18,7 +18,7 @@ images(x, y=NULL, images=NULL, thumbnailWidth=72)
     The y co-ordinates at which to plot the elements (as per xy.coords() ).
   }
   \item{images}{
-    A list of EBImage images.
+    A list of raster images.
   }
   \item{thumbnailWidth}{
     The width to standardize images to, in device independent
@@ -29,12 +29,14 @@ images(x, y=NULL, images=NULL, thumbnailWidth=72)
   None.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 
 # Get the images
 
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 dirimgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-imgs<-lapply(dirimgs, function(imgpath){readImage(imgpath)})
+imgs<-lapply(dirimgs, function(imgpath){readJPEG(imgpath)})
 
 # Get the image property summaries
 

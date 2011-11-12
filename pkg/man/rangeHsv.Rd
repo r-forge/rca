@@ -20,9 +20,11 @@ rangeHsv(hsvs)
   A list with the range for the H, S and V values under those names.
 }
 \examples{
+library(CulturalAnalytics)
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-img<-readImage(imgs[1])
+img<-readJPEG(imgs[1])
 rgbs<-imageToRgb(img)
 hsvs<-rgbToHsv(rgbs)
 hsvrange<-rangeHsv(hsvs)
