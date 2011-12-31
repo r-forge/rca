@@ -9,3 +9,4 @@ Description: Functions for calculating and plotting statistical properties of im
 License: GPL (>=3)
 LazyLoad: yes
 Depends: colorspace, plyr
+Suggests: jpeg

@@ -27,7 +27,6 @@ library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
 img<-readJPEG(imgs[1])
-histogram<-hist(imageData(channel(img, "grey")), breaks=0:255/255,
-                plot=FALSE)
+histogram<-hist(imageToIntensity(img), breaks=0:255/255, plot=FALSE)
 entropy<-imageEntropy(histogram)
 }

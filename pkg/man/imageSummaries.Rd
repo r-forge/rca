@@ -40,7 +40,7 @@ cleanFilename<-function(filepath){
 imgdir<-paste(system.file(package = "CulturalAnalytics"),
               "images/Claude_Monet/Haystacks", sep = "/")
 imgPaths<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-imgs<-lapply(imgPaths, function(path){readImage(path)})
+imgs<-lapply(imgPaths, function(path){readJPEG(path)})
 imgNames<-cleanFilename(imgPaths)
 imageSummariesData<-data.frame(name=imgNames,
                                imageSummaries(imgs),

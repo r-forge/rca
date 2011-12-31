@@ -479,8 +479,7 @@ divideImage<-function(image, columns, rows){
 ## Median intensity is already covered
 
 intensityVariance<-function(intensityImage){
-  id<-imageData(intensityImage)
-  (1 / length(id)) * sum(id)
+  (1 / length(intensityImage)) * sum(intensityImage)
 }
 
 ## intensityHistogram is already covered
@@ -536,3 +535,23 @@ intensityVariance<-function(intensityImage){
 ## Mean of properties of list of images
 ## Summary of properties of list of images
 ## Clustering images based on properties
+
+################################################################################
+## Historical aesthetic evaluation functions
+################################################################################
+
+# A modern version of Birkhoff's aesthetic measure
+# From http://gilab.udg.edu/publ/container/publications/jaume-rigau/2007/Conceptualizing%20Birkhoffs%20aesthetic%20measure%20using%20.pdf
+
+birkhoff<-function(image){
+  histogram<-hist(imageToIntensity(image), breaks=0:255/255,
+                  plot=FALSE)
+  order<-imageEntropy(histogram)
+  # Use gzip, like PNG
+  intensity<-imageToIntensity(image)
+  rawSize<-length(intensity)
+  compressedSize<-length(memCompress(as.raw(as.character(intensity)),
+  			 type="gzip"))
+  complexity<-compressedSize * rawSize
+  order * complexity
+}

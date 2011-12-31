@@ -1,3 +1,7 @@
+--- 31-December-2011, version 1.0.6
+add birkhoff()
+fix building on r-forge
+
 --- 12-November-2011, version 1.0.5
 remove dependency on EBImage
 switch to using raster images

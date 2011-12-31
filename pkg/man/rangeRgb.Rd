@@ -20,9 +20,10 @@ rangeRgb(rgbs)
   A list with the range for the R, G and B values under those names.
 }
 \examples{
+library(jpeg)
 imgdir<-paste(system.file(package = "CulturalAnalytics"), "images", sep = "/")
 imgs<-paste(imgdir, dir(path = imgdir, pattern = ".jpg"), sep = "/")
-img<-readImage(imgs[1])
+img<-readJPEG(imgs[1])
 rgbs<-imageToRgb(img)
 rgbrange<-rangeRgb(rgbs)
 }
