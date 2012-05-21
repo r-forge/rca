@@ -380,7 +380,7 @@ plotImages<-function(xValues, yValues, images, thumbnailWidth=72, cex=NULL){
   }
   ## We always need a thumbnailWidth list equal to length(images)
   if(length(thumbnailWidth) < length(images)) {
-    thumbnailWidth<-rep(thumbnailWidth, length.out=length(thumbnailWidth))
+    thumbnailWidth<-rep(thumbnailWidth, length.out=length(images))
   }
   for(i in 1:length(images)){
     image<-images[[i]]
