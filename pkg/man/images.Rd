@@ -8,7 +8,7 @@
   can be used in plots created using other systems.
 }
 \usage{
-images(x, y=NULL, images=NULL, thumbnailWidth=72)
+images(x, y=NULL, images=NULL, thumbnailWidth=72, cex=NULL)
 }
 \arguments{
   \item{x}{
@@ -23,6 +23,10 @@ images(x, y=NULL, images=NULL, thumbnailWidth=72)
   \item{thumbnailWidth}{
     The width to standardize images to, in device independent
     pixels.
+  }
+  \item{cex}{
+    The factor to scale each image by. For images of different aspect
+    ratios, the results may be difficult to compare visually.   
   }
 }
 \value{

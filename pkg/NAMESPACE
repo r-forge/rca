@@ -2,6 +2,7 @@ export(
        birkhoff,
        dataFramePalette,
        divideImage,
+       imageAreaNormalised,
        images,
        imageEntropy,
        imagePlot,

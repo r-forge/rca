@@ -1,5 +1,5 @@
 ##    cultural-analytics.r - Statistical analysis and plotting of images
-##    Copyright (C) 2011  Rob Myers <rob@robmyers.org>
+##    Copyright (C) 2011, 2012  Rob Myers <rob@robmyers.org>
 ##
 ##    This program is free software: you can redistribute it and/or modify
 ##    it under the terms of the GNU General Public License as published by
@@ -334,6 +334,13 @@ imageSummaries<-function(images){
 ## Scatter plot
 ################################################################################
 
+## Get the factors required to scale the images to an area of 1.0
+
+imageAreaNormalised<-function(images){
+  #FIXME
+  sapply(images, function(img){ 1.0 / sqrt(dim(img)[1] * dim(img)[2]) })
+}
+
 ## Convert an x position or a width in pixels into user co-ordinates
 
 pixelsToUserX<-function(size){
@@ -366,22 +373,30 @@ imageAspectRatio<-function(img){
 ## rasterImage plots in user space co-ordinates, plot() or par(usr) affects this
 ## So we calculate the aspect ratio
 
-plotImages<-function(xValues, yValues, images, thumbnailWidth=72){
+plotImages<-function(xValues, yValues, images, thumbnailWidth=72, cex=NULL){
+  # Scale the default size by cex, which may be 1 or n values
+  if(! is.null(cex)){
+    thumbnailWidth<-thumbnailWidth * cex
+  }
+  ## We always need a thumbnailWidth list equal to length(images)
+  if(length(thumbnailWidth) < length(images)) {
+    thumbnailWidth<-rep(thumbnailWidth, length.out=length(thumbnailWidth))
+  }
   for(i in 1:length(images)){
     image<-images[[i]]
     x<-xValues[i]
     y<-yValues[i]
-    rasterImage(image,
-                x, y - pixelsToUserY(thumbnailWidth) * imageAspectRatio(image),
-                x + pixelsToUserX(thumbnailWidth), y)
+    rasterImage(image, x,
+                y - pixelsToUserY(thumbnailWidth[i]) * imageAspectRatio(image),
+                x + pixelsToUserX(thumbnailWidth[i]), y)
   }
 }
 
 ## Public interface to the plotImages routine
 
-images<-function(x, y=NULL, images=NULL, thumbnailWidth=72){
+images<-function(x, y=NULL, images=NULL, thumbnailWidth=72, cex=NULL){
   xy<-xy.coords(x, y)
-  plotImages(xy$x, xy$y, images, thumbnailWidth)
+  plotImages(xy$x, xy$y, images, thumbnailWidth, cex)
 }
 
 ## Plot everything in an order that is good for visibility
@@ -555,3 +570,5 @@ birkhoff<-function(image){
   complexity<-compressedSize * rawSize
   order * complexity
 }
+
+
