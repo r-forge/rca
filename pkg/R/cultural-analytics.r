@@ -14,18 +14,15 @@
 ##    You should have received a copy of the GNU General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 ################################################################################
 ## Libraries used
 ################################################################################
-
 
 ##install.packages("colorspace")
 library("colorspace")
 
 ## install.packages("plyr") # for ddply
 library(plyr)
-
 
 ################################################################################
 ## Image palettes
@@ -112,7 +109,6 @@ plotPalettes<-function(palettes, names=FALSE){
   }
 }
 
-
 ################################################################################
 ## Image histograms
 ################################################################################
@@ -151,7 +147,6 @@ plotRgbHistogram<-function(colourHist){
   coloursOrdered<-colours[valuesOrder]
   barplot(countsOrdered, col=coloursOrdered, border=NA)
 }
-
 
 ################################################################################
 ## Image colour clouds
@@ -270,7 +265,6 @@ summaryRgb<-function(rgbs){
        B=summary(rgbcoords[,"B"]))
 }
 
-
 ################################################################################
 ## HSV statistics
 ################################################################################
@@ -331,7 +325,7 @@ imageSummaries<-function(images){
 }
 
 ################################################################################
-## Scatter plot
+## Scatter plot of Images
 ################################################################################
 
 ## Get the factors required to scale the images to an area of 1.0
@@ -435,7 +429,6 @@ imagePlot<-function(x, y=NULL, images=NULL, labels=NULL,
   }
 }
 
-
 ################################################################################
 ## Image tiling
 ################################################################################
@@ -468,7 +461,6 @@ divideImage<-function(image, columns, rows){
   }
   matrix(tiles, nrow=rows, ncol=columns)
 }
-
 
 ###############################################################################
 ## Feature analysis
@@ -555,8 +547,8 @@ intensityVariance<-function(intensityImage){
 ## Historical aesthetic evaluation functions
 ################################################################################
 
-# A modern version of Birkhoff's aesthetic measure
-# From http://gilab.udg.edu/publ/container/publications/jaume-rigau/2007/Conceptualizing%20Birkhoffs%20aesthetic%20measure%20using%20.pdf
+## A modern version of Birkhoff's aesthetic measure
+## From http://gilab.udg.edu/publ/container/publications/jaume-rigau/2007/Conceptualizing%20Birkhoffs%20aesthetic%20measure%20using%20.pdf
 
 birkhoff<-function(image){
   histogram<-hist(imageToIntensity(image), breaks=0:255/255,
@@ -571,4 +563,45 @@ birkhoff<-function(image){
   order * complexity
 }
 
+################################################################################
+## Default style
+################################################################################
 
+## overlayColor should be used by axis col, col.ticks, and col.axis
+## It should also be used for titles
+
+overlayColor<-rgb(1.0, 1.0, 1.0, 1.0)
+
+## foregroundColor should be used for the col of plotted elements
+## It is set as col in defaultStyle()
+
+foregroundColor<-rgb(0.8, 0.8, 0.8, 1.0)
+
+## backgroundColor should be used for the background, obviously
+## It is set as bg in defaultStyle()
+
+backgroundColor<-rgb(0.4, 0.4, 0.4, 1.0)
+
+## We set these in defaultStyle()
+
+lineLwd<-1
+pointPch<-19
+
+## These are not set in defaultStyle()
+
+pointCex<-2
+labelCex<-0.25
+
+## Set the drawing style to be like the Software Studies Initiative's plots
+## Call this before calling plot.new()
+
+defaultStyle<-function() {
+    par(bg=backgroundColor)
+    par(col=foregroundColor)
+    par(col.axis=overlayColor)
+    par(col.lab=overlayColor)
+    par(col.main=overlayColor)
+    par(col.sub=overlayColor)
+    par(lwd=lineLwd)
+    par(pch=pointPch)
+}

@@ -1,7 +1,10 @@
 export(
+       backgroundColor,
        birkhoff,
        dataFramePalette,
+       defaultStyle,
        divideImage,
+       foregroundColor,
        imageAreaNormalised,
        images,
        imageEntropy,
@@ -10,13 +13,18 @@ export(
        imageToDataFrame,
        imageToIntensity,
        imageToRgb,
+       labelCex,
+       lineLwd,
        medianHsv,
        medianRgb,
+       overlayColor,
        paletteToR,
        plotColourCloud,
        plotIntensityHistogram,
        plotPalettes,
        plotRgbHistogram,
+       pointCex,
+       pointPch,
        rangeHsv,
        rangeRgb,
        rgbImageHist,
@@ -26,4 +34,4 @@ export(
        sortPalettes,
        summaryHsv,
        summaryRgb
-       )
+ )
